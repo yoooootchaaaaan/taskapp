@@ -37,6 +37,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         searchBar.prompt = "カテゴリを検索する"
         searchBar.placeholder = "ここに入力してください"
         searchBar.showsSearchResultsButton = false
+        
+        // 入力が無い状態でも検索できるようにする
+        searchBar.enablesReturnKeyAutomatically = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -133,7 +136,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //Searchボタンが押された時に呼ばれる//
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         inputText = searchBar.text!
-        if(inputText==nil || inputText==""){
+        if(inputText==nil || inputText!.isEmpty){
             taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
             tableView.reloadData()
             searchBar.text = ""
